@@ -1,0 +1,49 @@
+class Solution {
+  public int[] longestObstacleCourseAtEachPosition(int[] obstacles) {
+
+    List<Integer> ans = new ArrayList<>();
+    List<Integer> l = new ArrayList<>();
+
+    for (final int i : obstacles)
+
+      if (l.isEmpty() || i >= l.get(l.size() - 1)) {
+
+        l.add(i);
+        ans.add(l.size());
+
+      } else {
+
+        final int ind = f(l, i);
+        l.set(ind, i);
+        ans.add(ind + 1);
+
+      }
+
+    return ans.stream().mapToInt(Integer::intValue).toArray();
+    
+  }
+
+  private int f(List<Integer> nums, int k) {
+
+    int l = 0;
+    int r = nums.size();
+
+    while (l < r) {
+
+      final int m = (l + r) / 2;
+
+      if (nums.get(m) > k)
+
+        r = m;
+
+      else
+
+        l = m + 1;
+
+    }
+
+    return l;
+
+  }
+
+}

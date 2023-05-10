@@ -1,0 +1,33 @@
+class Solution {
+    
+    public int[][] generateMatrix(int n) {
+        
+        int[][] ans = new int[n][n];
+        int l = 0, r = n - 1, u = 0, d = n - 1, c = 1, t = n * n;
+        
+        while(c <= t) {
+
+            for(int i = l; i <= r && c <= t; i++)
+            ans[u][i] = c++;
+
+            for(int i = u + 1; i <= d - 1 && c <= t; i++)
+            ans[i][r] = c++;
+
+            for(int i = r; i >= l && c <= t; i--)
+            ans[d][i] = c++;
+
+            for(int i = d - 1; i >= u + 1 && c <= t; i--)
+            ans[i][l] = c++;
+
+            l++; 
+            r--; 
+            u++; 
+            d--;
+
+        }
+
+        return ans;
+
+    }
+
+}

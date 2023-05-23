@@ -1,0 +1,34 @@
+class KthLargest {
+
+  public KthLargest(int k, int[] nums) {
+
+    this.k = k;
+
+    for (final int num : nums)
+
+      heapify(num);
+
+  }
+
+  public int add(int val) {
+
+    heapify(val);
+
+    return l.peek();
+
+  }
+
+  private final int k;
+  private Queue<Integer> l = new PriorityQueue<>();
+
+  private void heapify(int val) {
+
+    l.offer(val);
+
+    if (l.size() > k)
+
+      l.poll();
+
+  }
+
+}

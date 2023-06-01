@@ -1,0 +1,61 @@
+class Solution {
+
+  public int shortestPathBinaryMatrix(int[][] grid) {
+
+    final int n = grid.length;
+
+    if (grid[0][0] == 0 && n == 1)
+
+      return 1;
+
+    if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1)
+
+      return -1;
+
+    final int[][] d = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+    int ans = 0;
+    Queue<int[]> q = new ArrayDeque<>();
+    q.offer(new int[] {0, 0});
+    boolean[][] vis = new boolean[n][n];
+    vis[0][0] = true;
+
+    while (!q.isEmpty()) {
+
+      ++ans;
+
+      for (int bruh = q.size(); bruh > 0; --bruh) {
+
+        final int i = q.peek()[0];
+        final int j = q.poll()[1];
+
+        for (int[] con : d) {
+
+          final int a = i + con[0];
+          final int b = j + con[1];
+          if (a < 0 || a == n || b < 0 || b == n)
+
+            continue;
+            
+          if (grid[a][b] != 0 || vis[a][b])
+
+            continue;
+
+          if (a == n - 1 && b == n - 1)
+
+            return ans + 1;
+
+          q.offer(new int[] {a, b});
+          vis[a][b] = true;
+
+        }
+
+      }
+
+    }
+
+    return -1;
+
+  }
+
+}

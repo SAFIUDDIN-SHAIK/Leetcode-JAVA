@@ -1,0 +1,39 @@
+class Solution {
+
+  public int maxValue(int n, int index, int maxSum) {
+
+    maxSum -= n;
+
+    int start = 0;
+    int end = maxSum;
+
+    while (start < end) {
+
+      final int mid = (start + end) / 2;
+
+      if (f(n, index, mid) >= maxSum)
+
+        end = mid;
+
+      else
+
+        start = mid + 1;
+
+    }
+
+    return f(n, index, start) > maxSum ? start : start + 1;
+
+  }
+
+  private long f(int n, int index, int x) {
+
+    long start = Math.min(index, x - 1);
+    long end = Math.min(n - index, x);
+    long s1 = ((x - 1) + (x - 1 - start + 1)) * start / 2;
+    long s2 = (x + (x - end + 1)) * end / 2;
+
+    return s1 + s2;
+
+  }
+
+}

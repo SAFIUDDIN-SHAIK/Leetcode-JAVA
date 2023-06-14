@@ -1,0 +1,33 @@
+class Solution {
+    
+  public int getMinimumDifference(TreeNode root) {
+
+    int ans = Integer.MAX_VALUE;
+    int num = -1;
+    Deque<TreeNode> l = new ArrayDeque<>();
+
+    while (root != null || !l.isEmpty()) {
+
+      while (root != null) {
+
+        l.push(root);
+        root = root.left;
+
+      }
+
+      root = l.pop();
+
+      if (num >= 0)
+
+        ans = Math.min(ans, root.val - num);
+
+      num = root.val;
+      root = root.right;
+
+    }
+
+    return ans;
+
+  }
+
+}

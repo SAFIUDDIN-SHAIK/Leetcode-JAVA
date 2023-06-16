@@ -1,0 +1,63 @@
+class Solution {
+
+  public int numOfWays(int[] nums) {
+
+    total = generate(nums.length + 1);
+
+    return f(Arrays.stream(nums).boxed().collect(Collectors.toList())) - 1;
+
+  }
+
+  private static final int kMod = 1_000_000_007;
+  private List<List<Integer>> total;
+
+  private int f(List<Integer> nums) {
+
+    if (nums.size() <= 2)
+
+      return 1;
+
+    List<Integer> larr = new ArrayList<>();
+    List<Integer> rarr = new ArrayList<>();
+
+    for (int i = 1; i < nums.size(); ++i)
+
+      if (nums.get(i) < nums.get(0))
+
+        larr.add(nums.get(i));
+
+      else
+
+        rarr.add(nums.get(i));
+
+    long ans = total.get(nums.size() - 1).get(larr.size());
+    ans = (ans * f(larr)) % kMod;
+    ans = (ans * f(rarr)) % kMod;
+
+    return (int) ans;
+  
+  }
+
+  public List<List<Integer>> generate(int numRows) {
+
+    List<List<Integer>> total = new ArrayList<>();
+
+    for (int i = 0; i < numRows; ++i) {
+
+      Integer[] num = new Integer[i + 1];
+      Arrays.fill(num, 1);
+      total.add(Arrays.asList(num));
+
+    }
+
+    for (int i = 2; i < numRows; ++i)
+
+      for (int j = 1; j < total.get(i).size() - 1; ++j)
+
+        total.get(i).set(j, (total.get(i - 1).get(j - 1) + total.get(i - 1).get(j)) % kMod);
+
+    return total;
+
+  }
+
+}

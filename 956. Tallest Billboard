@@ -1,0 +1,33 @@
+class Solution {
+
+  public int tallestBillboard(int[] rods) {
+
+    final int n = rods.length;
+    final int sum = Arrays.stream(rods).sum();
+    int[][] l = new int[n + 1][sum + 1];
+    Arrays.stream(l).forEach(x -> Arrays.fill(x, -1));
+    l[0][0] = 0;
+
+    for (int i = 1; i <= n; ++i) {
+
+      final int temp = rods[i - 1];
+
+      for (int j = 0; j <= sum - temp; ++j) {
+
+        if (l[i - 1][j] < 0)
+
+          continue;
+
+        l[i][j] = Math.max(l[i][j], l[i - 1][j]);
+        l[i][j + temp] = Math.max(l[i][j + temp], l[i - 1][j]);
+        l[i][Math.abs(j - temp)] = Math.max(l[i][Math.abs(j - temp)], l[i - 1][j] + Math.min(j, temp));
+      
+      }
+    
+    }
+
+    return l[n][0];
+  
+  }
+
+}

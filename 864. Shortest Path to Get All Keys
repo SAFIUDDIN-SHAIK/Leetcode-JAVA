@@ -1,0 +1,109 @@
+class Class {
+
+  public int i;
+  public int j;
+  public int num;
+  public Class(int i, int j, int num) {
+
+    this.i = i;
+    this.j = j;
+    this.num = num;
+
+  }
+
+}
+
+class Solution {
+
+  public int shortestPathAllKeys(String[] grid) {
+
+    final int l1 = grid.length;
+    final int l2 = grid[0].length();
+    final int temp = f1(grid);
+    final int imp = (1 << temp) - 1;
+    final int[] arr = {0, 1, 0, -1, 0};
+    final int[] temp2 = f2(grid);
+    int ans = 0;
+    Queue<Class> l = new ArrayDeque<>(Arrays.asList(new Class(temp2[0], temp2[1], 0)));
+    boolean[][][] vis = new boolean[l1][l2][imp];
+    vis[temp2[0]][temp2[1]][0] = true;
+
+    while (!l.isEmpty()) {
+
+      ++ans;
+
+      for (int bruh = l.size(); bruh > 0; --bruh) {
+
+        final int i = l.peek().i;
+        final int j = l.peek().j;
+        final int num = l.poll().num;
+
+        for (int k = 0; k < 4; ++k) {
+
+          final int x = i + arr[k];
+          final int y = j + arr[k + 1];
+
+          if (x < 0 || x == l1 || y < 0 || y == l2)
+
+            continue;
+
+          final char chr = grid[x].charAt(y);
+
+          if (chr == '#')
+
+            continue;
+
+          final int nk = 'a' <= chr && chr <= 'f' ? num | 1 << chr - 'a' : num;
+
+          if (nk == imp)
+
+            return ans;
+
+          if (vis[x][y][nk])
+
+            continue;
+
+          if ('A' <= chr && chr <= 'F' && (nk >> chr - 'A' & 1) == 0)
+
+            continue;
+
+          l.offer(new Class(x, y, nk));
+          vis[x][y][nk] = true;
+
+        }
+
+      }
+
+    }
+
+    return -1;
+
+  }
+
+  private int f1(String[] grid) {
+
+    int count = 0;
+
+    for (final String s : grid)
+
+      count += (int) s.chars().filter(chr -> 'a' <= chr && chr <= 'f').count();
+
+    return count;
+
+  }
+
+  private int[] f2(String[] grid) {
+
+    for (int i = 0; i < grid.length; ++i)
+
+      for (int j = 0; j < grid[0].length(); ++j)
+
+        if (grid[i].charAt(j) == '@')
+
+          return new int[] {i, j};
+
+    throw new IllegalArgumentException();
+
+  }
+
+}

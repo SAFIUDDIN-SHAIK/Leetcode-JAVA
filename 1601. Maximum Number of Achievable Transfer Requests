@@ -1,0 +1,37 @@
+class Solution {
+
+  public int maximumRequests(int n, int[][] requests) {
+
+    f(0, 0, requests, new int[n]);
+
+    return ans;
+
+  }
+
+  private int ans = 0;
+
+  private void f(int i, int num, int[][] arr, int[] l) {
+
+    if (i == arr.length) {
+
+      if (Arrays.stream(l).allMatch(d -> d == 0))
+
+        ans = Math.max(ans, num);
+
+      return;
+
+    }
+
+    f(i + 1, num, arr, l);
+
+    --l[arr[i][0]];
+    ++l[arr[i][1]];
+
+    f(i + 1, num + 1, arr, l);
+
+    --l[arr[i][1]];
+    ++l[arr[i][0]];
+
+  }
+
+}

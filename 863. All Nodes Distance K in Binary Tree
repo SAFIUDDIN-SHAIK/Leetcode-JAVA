@@ -1,0 +1,66 @@
+class Solution {
+
+  public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+
+    List<Integer> ans = new ArrayList<>();
+    Map<TreeNode, Integer> dict = new HashMap<>();
+
+    getDists(root, target, dict);
+    dfs(root, k, 0, dict, ans);
+
+    return ans;
+
+  }
+
+  private void getDists(TreeNode root, TreeNode target, Map<TreeNode, Integer> dict) {
+
+    if (root == null)
+
+      return;
+
+    if (root == target) {
+
+      dict.put(root, 0);
+
+      return;
+
+    }
+
+    getDists(root.left, target, dict);
+
+    if (dict.containsKey(root.left)) {
+
+      dict.put(root, dict.get(root.left) + 1);
+
+      return;
+
+    }
+
+    getDists(root.right, target, dict);
+
+    if (dict.containsKey(root.right))
+
+      dict.put(root, dict.get(root.right) + 1);
+
+  }
+
+  private void dfs(TreeNode root, int k, int dist, Map<TreeNode, Integer> dict,  List<Integer> ans) {
+
+    if (root == null)
+
+      return;
+
+    if (dict.containsKey(root))
+
+      dist = dict.get(root);
+
+    if (dist == k)
+
+      ans.add(root.val);
+
+    dfs(root.left, k, dist + 1, dict, ans);
+    dfs(root.right, k, dist + 1, dict, ans);
+
+  }
+
+}

@@ -1,0 +1,40 @@
+class Solution {
+
+  public int numMusicPlaylists(int n, int goal, int k) {
+
+    this.n = n;
+    this.k = k;
+    l = new long[goal + 1][n + 1];
+    Arrays.stream(l).forEach(i -> Arrays.fill(i, -1));
+
+    return (int) f(goal, n);
+
+  }
+
+  private static final int M = 1_000_000_007;
+  private int n;
+  private int k;
+  private long[][] l;
+
+  private long f(int i, int j) {
+
+    if (i == 0)
+
+      return j == 0 ? 1 : 0;
+
+    if (j == 0)
+
+      return 0;
+
+    if (l[i][j] >= 0)
+
+      return l[i][j];
+
+    l[i][j] = f(i - 1, j - 1) * (n - (j - 1));
+    l[i][j] += f(i - 1, j) * Math.max(0, j - k);
+
+    return l[i][j] %= M;
+
+  }
+
+}

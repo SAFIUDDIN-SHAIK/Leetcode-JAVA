@@ -1,0 +1,72 @@
+class Solution {
+
+  public int[] sortItems(int n, int m, int[] group, List<List<Integer>> beforeItems) {
+
+    List<Integer>[] d = new List[n + m];
+    int[] l = new int[n + m];
+
+    for (int i = 0; i < d.length; ++i)
+
+      d[i] = new ArrayList<>();
+
+    for (int i = 0; i < group.length; ++i) {
+
+      if (group[i] == -1)
+
+        continue;
+
+      d[group[i] + n].add(i);
+      ++l[i];
+
+    }
+
+    for (int i = 0; i < beforeItems.size(); ++i)
+
+      for (final int j : beforeItems.get(i)) {
+
+        final int a = group[j] == -1 ? j : group[j] + n;
+        final int b = group[i] == -1 ? i : group[i] + n;
+
+        if (a == b) {
+
+          d[j].add(i);
+          ++l[i];
+
+        } else {
+
+          d[a].add(b);
+          ++l[b];
+
+        }
+
+      }
+
+    List<Integer> ans = new ArrayList<>();
+
+    for (int i = 0; i < n + m; ++i)
+
+      if (l[i] == 0)
+
+        f(d, i, l, n, ans);
+
+    return ans.size() == n ? ans.stream().mapToInt(Integer::intValue).toArray() : new int[] {};
+
+  }
+
+  private void f(List<Integer>[] d, int a, int[] l, int n, List<Integer> ans) {
+
+    if (a < n)
+
+      ans.add(a);
+
+    l[a] = -1;
+
+    for (final int b : d[a])
+
+      if (--l[b] == 0)
+
+        f(d, b, l, n, ans);
+
+  }
+
+}

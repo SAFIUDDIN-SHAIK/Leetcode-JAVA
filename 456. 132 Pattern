@@ -1,0 +1,26 @@
+class Solution {
+
+  public boolean find132pattern(int[] nums) {
+
+    Deque<Integer> l = new ArrayDeque<>();
+    int n = Integer.MIN_VALUE;
+
+    for (int i = nums.length - 1; i >= 0; --i) {
+
+      if (nums[i] < n)
+
+        return true;
+
+      while (!l.isEmpty() && l.peek() < nums[i])
+
+        n = l.pop();
+
+      l.push(nums[i]);
+
+    }
+
+    return false;
+
+  }
+
+}

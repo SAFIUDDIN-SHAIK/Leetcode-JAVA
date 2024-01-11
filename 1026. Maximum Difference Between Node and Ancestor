@@ -1,0 +1,24 @@
+class Solution {
+
+  public int maxAncestorDiff(TreeNode root) {
+
+    return f(root, root.val, root.val);
+
+  }
+
+  private int f(TreeNode head, int mn, int mx) {
+
+    if (head == null)
+
+      return 0;
+
+    mn = Math.min(mn, head.val);
+    mx = Math.max(mx, head.val);
+    final int l = f(head.left, mn, mx);
+    final int r = f(head.right, mn, mx);
+
+    return Math.max(mx - mn, Math.max(l, r));
+
+  }
+
+}

@@ -1,0 +1,39 @@
+class Solution {
+
+  public int numberOfArithmeticSlices(int[] nums) {
+
+    final int n = nums.length;
+    int ans = 0;
+    int[][] l = new int[n][n];
+    Map<Long, List<Integer>> d = new HashMap<>();
+
+    for (int i = 0; i < n; ++i) {
+
+      d.putIfAbsent((long) nums[i], new ArrayList<>());
+      d.get((long) nums[i]).add(i);
+
+    }
+
+    for (int i = 0; i < n; ++i)
+
+      for (int j = 0; j < i; ++j) {
+
+        final long temp = nums[j] * 2L - nums[i];
+
+        if (d.containsKey(temp))
+
+          for (final int k : d.get(temp))
+
+            if (k < j)
+
+              l[i][j] += (l[j][k] + 1);
+
+        ans += l[i][j];
+
+      }
+
+    return ans;
+
+  }
+
+}
